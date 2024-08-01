@@ -1,31 +1,23 @@
-import { connectToDatabase } from "../../../../lib/mongodb";
-import { ObjectId } from "mongodb";
+import clientPromise from "@/lib/mongodb";
 
-export async function GET({ params }) {
-  const db = await connectToDatabase();
-  const collection = db.collection("products");
-  const product = await collection.findOne({ _id: new ObjectId(params.id) });
-  return new Response(JSON.stringify(product), { status: 200 });
-}
+export async function GET(request, { params }) {
+  const { id } = params;
 
-export async function PUT({ params, request }) {
-  const db = await connectToDatabase();
-  const collection = db.collection("products");
-  const update = await request.json();
-  await collection.updateOne(
-    { _id: new ObjectId(params.id) },
-    { $set: update }
-  );
-  return new Response(JSON.stringify({ message: "Product updated" }), {
-    status: 200,
-  });
-}
+  try {
+    const client = await clientPromise;
+    const db = client.db();
+    const product = await db
+      .collection("products")
+      .findOne({ _id: new ObjectId(id) });
 
-export async function DELETE({ params }) {
-  const db = await connectToDatabase();
-  const collection = db.collection("products");
-  await collection.deleteOne({ _id: new ObjectId(params.id) });
-  return new Response(JSON.stringify({ message: "Product deleted" }), {
-    status: 200,
-  });
+    if (!product) {
+      return new Response("Product not found", { status: 404 });
+    }
+
+    return new Response(JSON.stringify(product), {
+      headers: { "Content-Type": "application/json" },
+    });
+  } catch (error) {
+    return new Response("Error fetching product", { status: 500 });
+  }
 }
