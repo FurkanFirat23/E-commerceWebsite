@@ -1,33 +1,48 @@
-import { useRouter } from "next/navigation";
+"use client";
 
-export default function ProductPage({ params }) {
-  const { id } = params; // URL'den ID'yi al
-  const [product, setProduct] = React.useState(null);
+import { useEffect, useState } from "react";
 
-  React.useEffect(() => {
-    async function fetchProduct() {
+export default function ProductsPage() {
+  const [products, setProducts] = useState([]);
+
+  useEffect(() => {
+    async function fetchProducts() {
       try {
-        const response = await fetch(`/api/products/${id}`);
+        const response = await fetch("/api/products");
         const data = await response.json();
-        setProduct(data);
+        setProducts(data);
       } catch (error) {
-        console.error("Error fetching product:", error);
+        console.error("Error fetching products:", error);
       }
     }
 
-    fetchProduct();
-  }, [id]);
-
-  if (!product) return <p>Loading...</p>;
+    fetchProducts();
+  }, []);
 
   return (
     <div className="min-h-screen bg-gray-100 p-4">
-      <h1 className="text-3xl font-bold mb-6">{product.name}</h1>
-      <p className="text-lg mb-4">{product.description}</p>
-      <p className="text-xl font-semibold mb-4">Price: ${product.price}</p>
-      <button className="px-6 py-3 bg-blue-500 text-white rounded hover:bg-blue-600 transition">
-        Add to Cart
-      </button>
+      <h1 className="text-3xl font-bold mb-6">Our Products</h1>
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+        {products.length > 0 ? (
+          products.map((product) => (
+            <div
+              key={product._id}
+              className="border rounded-lg p-4 bg-white shadow-md"
+            >
+              <h2 className="text-xl font-semibold mb-2">{product.name}</h2>
+              <p className="text-gray-700 mb-4">{product.description}</p>
+              <a
+                href={`/products/${product._id}`}
+                className="text-blue-500 hover:underline"
+              >
+                View Details
+              </a>
+            </div>
+          ))
+        ) : (
+          <p>No products available.</p>
+        )}
+      </div>
     </div>
   );
 }
