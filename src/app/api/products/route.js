@@ -1,16 +1,17 @@
-import { connectToDatabase } from "../../../lib/mongodb";
+import dbConnect from "@/lib/mongodb";
+import Product from "@/models/Product";
 
-export async function GET() {
-  const db = await connectToDatabase();
-  const collection = db.collection("products");
-  const products = await collection.find({}).toArray();
-  return new Response(JSON.stringify(products), { status: 200 });
-}
+export async function GET(request) {
+  try {
+    await dbConnect();
 
-export async function POST(request) {
-  const db = await connectToDatabase();
-  const collection = db.collection("products");
-  const product = await request.json();
-  const result = await collection.insertOne(product);
-  return new Response(JSON.stringify(result.ops[0]), { status: 201 });
+    const products = await Product.find({});
+
+    return new Response(JSON.stringify(products), {
+      headers: { "Content-Type": "application/json" },
+    });
+  } catch (error) {
+    console.error("Error fetching products:", error);
+    return new Response("Error fetching products", { status: 500 });
+  }
 }

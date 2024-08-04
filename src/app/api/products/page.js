@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import Link from "next/link";
 
 export default function ProductsPage() {
   const [products, setProducts] = useState([]);
@@ -31,12 +32,12 @@ export default function ProductsPage() {
             >
               <h2 className="text-xl font-semibold mb-2">{product.name}</h2>
               <p className="text-gray-700 mb-4">{product.description}</p>
-              <a
+              <Link
                 href={`/products/${product._id}`}
                 className="text-blue-500 hover:underline"
               >
                 View Details
-              </a>
+              </Link>
             </div>
           ))
         ) : (
