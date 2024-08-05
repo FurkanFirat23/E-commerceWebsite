@@ -1,24 +1,15 @@
-import clientPromise from "@/lib/mongodb";
-import { ObjectId } from "mongodb";
+import dbConnect from "@/lib/mongodb";
+import Product from "@/models/Product";
 
-export async function GET(request, { params }) {
+export async function DELETE(req, { params }) {
+  await dbConnect();
   const { id } = params;
 
   try {
-    const client = await clientPromise;
-    const db = client.db();
-    const product = await db
-      .collection("products")
-      .findOne({ _id: new ObjectId(id) });
-
-    if (!product) {
-      return new Response("Product not found", { status: 404 });
-    }
-
-    return new Response(JSON.stringify(product), {
-      headers: { "Content-Type": "application/json" },
-    });
+    await Product.findByIdAndDelete(id);
+    return new Response("Product deleted", { status: 200 });
   } catch (error) {
-    return new Response("Error fetching product", { status: 500 });
+    console.error("Error deleting product:", error);
+    return new Response("Error deleting product", { status: 500 });
   }
 }
