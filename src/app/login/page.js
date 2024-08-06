@@ -5,46 +5,74 @@ import { useRouter } from "next/navigation";
 
 export default function LoginPage() {
   const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
   const router = useRouter();
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // Giriş işlemi yapılabilir
-    router.push("/dashboard"); // Örneğin, kullanıcıyı yönlendirme
-  };
 
-  const goToHome = () => {
-    router.push("/"); // Ana sayfaya yönlendirme
+    const res = await fetch("/api/auth/login", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ email, password }),
+    });
+
+    const data = await res.json();
+
+    if (res.ok) {
+      localStorage.setItem("token", data.token);
+      localStorage.setItem("username", data.username);
+      router.push("/");
+    } else {
+      setError(data.error);
+    }
   };
 
   return (
-    <div className="relative">
-      {/* Ana Sayfaya Dön Butonu */}
-      <button
-        onClick={goToHome}
-        className="absolute top-4 left-4 px-4 py-2 bg-blue-500 text-white rounded shadow-md hover:bg-blue-600"
-      >
-        Ana Sayfaya Dön
-      </button>
-
-      <div className="flex flex-col items-center justify-center min-h-screen">
-        <h1 className="text-3xl mb-4">Giriş Yap</h1>
-        <form onSubmit={handleSubmit} className="flex flex-col space-y-4">
+    <div className="flex flex-col items-center justify-center min-h-screen bg-gray-50 p-4">
+      <h1 className="text-4xl font-bold mb-4">Login</h1>
+      {error && <p className="text-red-500">{error}</p>}
+      <form onSubmit={handleSubmit} className="w-full max-w-sm">
+        <div className="mb-4">
+          <label
+            htmlFor="email"
+            className="block text-sm font-medium text-gray-700"
+          >
+            Email
+          </label>
           <input
             type="email"
+            id="email"
+            className="mt-1 p-2 border border-gray-300 rounded w-full text-gray-900"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
-            placeholder="E-posta"
-            className="px-4 py-2 border rounded"
           />
-          <button
-            type="submit"
-            className="px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600"
+        </div>
+        <div className="mb-4">
+          <label
+            htmlFor="password"
+            className="block text-sm font-medium text-gray-700"
           >
-            Giriş Yap
-          </button>
-        </form>
-      </div>
+            Password
+          </label>
+          <input
+            type="password"
+            id="password"
+            className="mt-1 p-2 border border-gray-300 rounded w-full text-gray-900"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+          />
+        </div>
+        <button
+          type="submit"
+          className="px-6 py-3 bg-blue-500 text-white rounded hover:bg-blue-600 transition"
+        >
+          Login
+        </button>
+      </form>
     </div>
   );
 }
