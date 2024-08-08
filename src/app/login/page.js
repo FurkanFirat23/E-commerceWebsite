@@ -2,12 +2,14 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { useUser } from "@/context/UserContext";
 
 export default function LoginPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const router = useRouter();
+  const { login } = useUser();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -23,8 +25,7 @@ export default function LoginPage() {
     const data = await res.json();
 
     if (res.ok) {
-      localStorage.setItem("token", data.token);
-      localStorage.setItem("username", data.username);
+      login(data.username);
       router.push("/");
     } else {
       setError(data.error);
