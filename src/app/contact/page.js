@@ -1,6 +1,7 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useRouter } from "next/navigation";
 
 export default function ContactPage() {
   const [name, setName] = useState("");
@@ -8,6 +9,18 @@ export default function ContactPage() {
   const [message, setMessage] = useState("");
   const [success, setSuccess] = useState(false);
   const [error, setError] = useState("");
+  const router = useRouter();
+
+  // Kullanıcının kimlik doğrulaması yapılmış mı diye kontrol et
+  useEffect(() => {
+    const username = localStorage.getItem("username");
+    if (!username) {
+      // Eğer kullanıcı giriş yapmamışsa, login sayfasına yönlendir
+      router.push("/login");
+    } else {
+      setName(username); // Eğer giriş yapmışsa, ismini doldur
+    }
+  }, [router]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -60,6 +73,7 @@ export default function ContactPage() {
               onChange={(e) => setName(e.target.value)}
               className="mt-2 w-full p-2 border border-gray-300 rounded"
               required
+              disabled // Kullanıcı ismini değiştiremesin
             />
           </div>
           <div className="mb-4">
