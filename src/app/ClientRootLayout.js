@@ -1,27 +1,14 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import Link from "next/link";
-import "../app/styles/globals.css";
+import { useUser } from "../context/UserContext";
+import { useTheme } from "../context/ThemeContext";
 
 export default function ClientRootLayout({ children }) {
-  const [username, setUsername] = useState(null);
-
-  useEffect(() => {
-    const storedUsername = localStorage.getItem("username");
-    if (storedUsername) {
-      setUsername(storedUsername);
-    }
-  }, []);
-
-  const handleLogout = () => {
-    localStorage.removeItem("token");
-    localStorage.removeItem("username");
-    setUsername(null);
-  };
+  const { user, logout } = useUser();
+  const { theme, toggleTheme } = useTheme();
 
   return (
-    <div>
+    <div className={`theme-${theme}`}>
       <header className="bg-blue-800 text-white py-4 shadow-md">
         <div className="container mx-auto flex justify-between items-center px-4">
           <h1 className="text-2xl font-bold">E-Commerce</h1>
@@ -38,10 +25,10 @@ export default function ClientRootLayout({ children }) {
             <Link href="/contact" className="hover:underline">
               Contact
             </Link>
-            {username ? (
+            {user ? (
               <>
-                <span className="hover:underline">{username}</span>
-                <button onClick={handleLogout} className="hover:underline">
+                <span className="hover:underline">{user.username}</span>
+                <button onClick={logout} className="hover:underline">
                   Logout
                 </button>
               </>

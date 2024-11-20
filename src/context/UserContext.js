@@ -2,13 +2,15 @@ import { createContext, useContext, useState, useEffect } from "react";
 
 const UserContext = createContext();
 
+export const useUser = () => useContext(UserContext);
+
 export function UserProvider({ children }) {
   const [user, setUser] = useState(null);
 
   useEffect(() => {
-    const username = localStorage.getItem("username");
-    if (username) {
-      setUser({ username });
+    const storedUsername = localStorage.getItem("username");
+    if (storedUsername) {
+      setUser({ username: storedUsername });
     }
   }, []);
 
@@ -28,5 +30,3 @@ export function UserProvider({ children }) {
     </UserContext.Provider>
   );
 }
-
-export const useUser = () => useContext(UserContext);
