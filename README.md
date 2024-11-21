@@ -1,3 +1,58 @@
+# E-Commerce Web Application
+
+## To-Do List
+
+### 1. Improving the Top Menu (Navbar) Design - **Completed**
+
+- Changing the background color to lighter tones.
+- Applying modern fonts (e.g., Roboto, Inter, Open Sans).
+- Adding hover effects to menu items.
+- Adding a search bar.
+
+### 2. Search Box
+
+- A **search bar** will be added to the navbar, enabling users to search for products.
+- When a search is performed, a query will be sent to the API to retrieve matching products.
+
+### 3. Login / Register Pages
+
+- Improving the login and registration pages for users.
+- Adding a "Forgot Password" link and integrating with a password reset page.
+- Redirecting users to the homepage after successful login.
+
+### 4. Products Page
+
+- A page will be designed to list products.
+- Users will be able to view products and access product details.
+
+### 5. Cart Feature
+
+- Users will be able to add selected products to the cart and proceed to checkout.
+- Cart information, including the total amount, will be displayed.
+
+### 6. User Profile Page
+
+- Users will be able to view and edit their profiles.
+- Form fields will be provided for profile updates.
+
+### 7. Footer Design
+
+- A footer will be added at the bottom of the page, containing contact information, social media links, and legal information.
+
+### 8. API Integration
+
+- REST APIs will be created for products, users, and cart operations.
+- User registration, login, logout, and password reset functionality will be implemented.
+
+## Technologies
+
+- Next.js
+- Tailwind CSS
+- MongoDB
+- bcryptjs (for password hashing)
+- React Hooks
+- JavaScript
+
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
 ## Getting Started
