@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { useUser } from "@/context/UserContext"; // UserContext'inden useUser hook'unu içe aktardık
+import { useUser } from "@/context/UserContext";
 
 export default function LoginPage() {
   const [email, setEmail] = useState("");
@@ -10,16 +10,12 @@ export default function LoginPage() {
   const [error, setError] = useState("");
   const router = useRouter();
 
-  // useUser hook'u ile login fonksiyonu alınıyor
   const userContext = useUser();
-
-  // Eğer userContext undefined veya login fonksiyonu yoksa, login fonksiyonu null fallback ile set edilsin.
   const { login } = userContext || {};
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // API'ye giriş isteği gönderiyoruz
     const res = await fetch("/api/auth/login", {
       method: "POST",
       headers: {
@@ -30,24 +26,22 @@ export default function LoginPage() {
 
     const data = await res.json();
 
-    // Eğer API yanıtı başarılıysa login fonksiyonunu çağırıyoruz
     if (res.ok) {
       if (login) {
-        login(data.username); // Kullanıcıyı login et
-        router.push("/"); // Ana sayfaya yönlendir
+        login(data.username);
+        router.push("/");
       } else {
         setError("Login fonksiyonu bulunamadı.");
       }
     } else {
-      setError(data.error); // Hata mesajını set ediyoruz
+      setError(data.error);
     }
   };
 
   return (
     <div className="flex flex-col items-center justify-center min-h-screen bg-gray-50 p-4">
       <h1 className="text-4xl font-bold mb-4">Login</h1>
-      {error && <p className="text-red-500">{error}</p>}{" "}
-      {/* Hata varsa göster */}
+      {error && <p className="text-red-500">{error}</p>}
       <form onSubmit={handleSubmit} className="w-full max-w-sm">
         <div className="mb-4">
           <label
@@ -81,11 +75,17 @@ export default function LoginPage() {
         </div>
         <button
           type="submit"
-          className="px-6 py-3 bg-blue-500 text-white rounded hover:bg-blue-600 transition"
+          className="w-full px-6 py-3 bg-blue-500 text-white rounded hover:bg-blue-600 transition"
         >
           Login
         </button>
       </form>
+      <button
+        onClick={() => router.push("/forgot-password")}
+        className="mt-4 text-sm text-blue-500 hover:underline"
+      >
+        Parolamı Unuttum
+      </button>
     </div>
   );
 }

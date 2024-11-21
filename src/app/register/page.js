@@ -7,23 +7,31 @@ export default function RegisterPage() {
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [error, setError] = useState(""); // Hata mesajını saklamak için
   const router = useRouter();
 
   const handleRegister = async (e) => {
     e.preventDefault();
+    setError(""); // Önceki hatayı sıfırla
 
-    const res = await fetch("/api/auth/register", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ username, email, password }),
-    });
+    try {
+      const res = await fetch("/api/auth/register", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ username, email, password }),
+      });
 
-    if (res.ok) {
-      router.push("/login");
-    } else {
-      console.error("Failed to register");
+      if (res.ok) {
+        router.push("/login");
+      } else {
+        const data = await res.json(); // API'den dönen hata mesajını al
+        setError(data.error || "Failed to register");
+      }
+    } catch (err) {
+      console.error("Unexpected error:", err);
+      setError("Something went wrong. Please try again later.");
     }
   };
 
@@ -73,6 +81,7 @@ export default function RegisterPage() {
             required
           />
         </div>
+        {error && <div className="mb-4 text-red-500 text-sm">{error}</div>}
         <button
           type="submit"
           className="w-full p-2 bg-blue-500 text-white rounded hover:bg-blue-600 transition"
