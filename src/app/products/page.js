@@ -31,7 +31,10 @@ export default function ProductsPage() {
   return (
     <div className="flex flex-col items-center justify-center min-h-screen bg-gray-50 p-4">
       <h1 className="text-4xl font-bold mb-4">Products</h1>
-      <Link href="/products/new" className="mb-4 text-blue-500 hover:underline">
+      <Link
+        href="/products/new"
+        className="mb-4 px-6 py-3 bg-blue-600 text-white text-lg font-semibold rounded shadow-md hover:bg-blue-700 transition"
+      >
         Add New Product
       </Link>
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
