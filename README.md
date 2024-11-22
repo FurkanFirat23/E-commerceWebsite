@@ -1,5 +1,51 @@
 # E-Commerce Web Application
 
+## Features
+
+This E-commerce website project includes several key features that enhance the user experience and facilitate easy product management:
+
+1. **User Authentication**
+
+   - Secure login and registration functionality, allowing users to sign up, log in, and manage their accounts.
+
+2. **Product Management**
+
+   - Implemented CRUD (Create, Read, Update, Delete) operations for managing products, including the ability to add, view, update, and delete product listings.
+
+3. **Search Functionality**
+
+   - Real-time product search, enabling users to quickly find products based on their search queries.
+
+4. **Responsive Design**
+
+   - A fully responsive design built with **TailwindCSS**, ensuring a seamless user experience across various devices, from desktop to mobile.
+
+5. **Dynamic Routing**
+
+   - Utilized **Next.js** for dynamic page routing, creating individual pages for products with detailed descriptions, images, and prices.
+
+6. **State Management**
+
+   - Efficient state management using **React Hooks**, ensuring smooth and dynamic updates to the UI without unnecessary reloads.
+
+7. **Server-Side Integration**
+
+   - Integrated the frontend with a Node.js backend to handle API requests for retrieving and managing data (products, users, etc.).
+
+8. **Admin Features**
+
+   - Admin users have the ability to manage products, including deleting listings and managing user access.
+
+9. **Modern Tech Stack**
+
+   - Built using **Next.js**, **React**, **TailwindCSS**, and **Node.js**, ensuring a modern, efficient, and scalable architecture.
+
+10. **Optimized Code**
+
+- Focused on clean, maintainable, and scalable code with reusable components, adhering to best practices in software development.
+
+These features contribute to a fully functional and user-friendly e-commerce platform.
+
 ## To-Do List
 
 ### 1. Improving the Top Menu (Navbar) Design - **Completed**
