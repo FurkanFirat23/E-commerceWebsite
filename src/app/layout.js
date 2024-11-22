@@ -51,7 +51,7 @@ export default function Layout({ children }) {
       <body>
         <div>
           {/* Navbar */}
-          <header className="bg-gray-100 shadow-md">
+          <header className="bg-gray-100 shadow-md fixed top-0 left-0 w-full z-50">
             <div className="container mx-auto px-4 py-3 flex justify-between items-center">
               {/* Logo */}
               <div className="text-2xl font-bold text-blue-600">E-Commerce</div>
@@ -131,7 +131,7 @@ export default function Layout({ children }) {
 
           {/* Arama Sonuçları */}
           {searchResults.length > 0 && (
-            <div className="container mx-auto p-4 mt-6">
+            <div className="container mx-auto p-4 mt-20">
               <h2 className="text-xl font-semibold">Search Results</h2>
               <ul className="space-y-4">
                 {searchResults.map((product) => (
@@ -149,7 +149,7 @@ export default function Layout({ children }) {
           )}
 
           {/* Ana İçerik */}
-          <main className="container mx-auto p-4">{children}</main>
+          <main className="container mx-auto p-4 mt-20">{children}</main>
 
           {/* Footer */}
           <footer className="bg-gray-800 text-white py-4">
