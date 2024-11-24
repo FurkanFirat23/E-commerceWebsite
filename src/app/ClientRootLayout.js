@@ -16,9 +16,12 @@ export default function ClientRootLayout({ children }) {
             <Link href="/" className="hover:underline">
               Home
             </Link>
-            <Link href="/products" className="hover:underline">
-              Products
-            </Link>
+            {isAuthenticated && (
+              <Link href="/products/new" className="button-styling">
+                Add New Product
+              </Link>
+            )}
+
             <Link href="/about" className="hover:underline">
               About
             </Link>
